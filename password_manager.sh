@@ -12,6 +12,20 @@ while [ true ]; do
         read -p "次の選択肢から入力してください(Add Password/Get Password/Exit)：" selection
     elif [[ ${selection} == "Get Password" ]]; then
         read -p "サービス名を入力してください：" servicename
+        info=$(grep "${servicename}:" database.txt)
+        if [[ ${info} ]]; then
+            servicename=${info%%:*}
+            tmp=${info#*:}
+            username=${tmp%%:*}
+            password=${info##*:}
+            echo
+            echo "サービス名：${servicename}"
+            echo "ユーザー名：${username}"
+            echo "パスワード：${password}"
+        else
+            echo "そのサービスは登録されていません。"
+        fi
+        echo
         read -p "次の選択肢から入力してください(Add Password/Get Password/Exit)：" selection
     elif [[ ${selection} == "Exit" ]]; then
         echo "Thank you!"
